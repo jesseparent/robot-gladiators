@@ -12,8 +12,8 @@ let playerMoney = 10;
 
 // The Enemies
 let enemyNames = ["Roborto", "Amy Android", "Robo Trumble"];
-var enemyHealth = 50;
-var enemyAttack = 12;
+let enemyHealth = 50;
+let enemyAttack = 12;
 
 let fight = function (enemyName) {
   while (enemyHealth > 0 && playerHealth > 0) {
@@ -96,15 +96,66 @@ let fight = function (enemyName) {
   }
 };
 
-for (var i = 0; i < enemyNames.length; i++) {
+let startGame = function () {
+  // reset player stats
+  playerHealth = 100;
+  playerAttack = 10;
+  playerMoney = 10;
+
+  // Loop through enemies until you win or you die or you flee
+  for (let i = 0; i < enemyNames.length; i++) {
+    if (playerHealth > 0) {
+      window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
+      let pickedEnemyName = enemyNames[i];
+      enemyHealth = 50;
+      fight(pickedEnemyName);
+    }
+    else {
+      window.alert("You have lost your robot in battle! Game Over!");
+      break;
+    }
+
+    // Ask player if they want to shop
+
+  }
+  // End the game
+  endGame();
+};
+
+let endGame = function () {
+  // Display the user's stats 
   if (playerHealth > 0) {
-    window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
-    var pickedEnemyName = enemyNames[i];
-    enemyHealth = 50;
-    fight(pickedEnemyName);
-  }
+    window.alert("Great job, you've survived the game! You now have a score of " + playerMoney + ".");
+  } 
   else {
-    window.alert("You have lost your robot in battle! Game Over!");
-    break;
+    window.alert("You've lost your robot in battle.");
   }
-}
+
+  // Ask if the user wants to play again
+  let playAgainConfirm = window.confirm("Would you like to play again?");
+
+  // If the user wants to play again, start the game
+  if (playAgainConfirm) {
+    // restart the game
+    startGame();
+  } 
+  // If the user is done, end
+  else {
+    window.alert("Thank you for playing Robot Gladiators! Come back soon!");
+  }
+};
+
+let shop = function () {
+  // Ask player if they want to refill health, upgrade attack, or leave the shop
+
+  // If refill, subtract money points from player and increase health
+
+  // If upgrade, subtract money points from player and increase attack power
+
+  // If leave, alert goodbye and exit the function
+
+  // If any other invalid option, call shop() again
+};
+
+// start the game on page load
+startGame();
