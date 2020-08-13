@@ -5,66 +5,78 @@
 // "LOSE" - Player robot's health is zero or less
 
 let fight = function (enemy) {
+  // keep track of who goes first
+  let isPlayerTurn = true;
+  if (Math.random() < 0.5) {
+    isPlayerTurn = false;
+  }
+
   while (enemy.health > 0 && player.health > 0) {
     // Ask the player if they want to fight or not
-    if (fightOrSkip()) {
-      // If true, the Player is skipping the fight
-      break;
+    if (isPlayerTurn) {
+      // ask user if they'd like to fight or skip using fightOrSkip function
+      if (fightOrSkip()) {
+        // if true, leave fight by breaking loop
+        break;
+      }
+
+      // remove enemy's health by subtracting the amount set in the player.attack variable
+      // generate random damage value based on player's attack power
+      let damage = randomNumber(player.attack - 3, player.attack);
+
+      enemy.health = Math.max(0, enemy.health - damage);
+      console.log(
+        player.name +
+        " attacked " +
+        enemy.name +
+        ". " +
+        enemy.name +
+        " now has " +
+        enemy.health +
+        " health remaining."
+      );
+
+      // check enemy's health
+      if (enemy.health <= 0) {
+        window.alert(enemy.name + " has died!");
+
+        // award player money for winning
+        player.money = player.money + 20;
+
+        // leave while() loop since enemy is dead
+        break;
+      } else {
+        console.log(enemy.name + " still has " + enemy.health + " health left.");
+      }
     }
+    else {
+      // remove players's health by subtracting the amount set in the enemy.attack variable
+      // generate random damage value based on enemy's attack power
+      let damage = randomNumber(enemy.attack - 3, enemy.attack);
 
-    // remove enemy's health by subtracting the amount set in the player.attack variable
-    // generate random damage value based on player's attack power
-    let damage = randomNumber(player.attack - 3, player.attack);
+      player.health = Math.max(0, player.health - damage);
+      console.log(
+        enemy.name +
+        " attacked " +
+        player.name +
+        ". " +
+        player.name +
+        " now has " +
+        player.health +
+        " health remaining."
+      );
 
-    enemy.health = Math.max(0, enemy.health - damage);
-    console.log(
-      player.name +
-      " attacked " +
-      enemy.name +
-      ". " +
-      enemy.name +
-      " now has " +
-      enemy.health +
-      " health remaining."
-    );
-
-    // check enemy's health
-    if (enemy.health <= 0) {
-      window.alert(enemy.name + " has died!");
-
-      // award player money for winning
-      player.money = player.money + 20;
-
-      // leave while() loop since enemy is dead
-      break;
-    } else {
-      console.log(enemy.name + " still has " + enemy.health + " health left.");
+      // check player's health
+      if (player.health <= 0) {
+        window.alert(player.name + " has died!");
+        // leave while() loop if player is dead
+        break;
+      } else {
+        console.log(player.name + " still has " + player.health + " health left.");
+      }
     }
-
-    // remove players's health by subtracting the amount set in the enemy.attack variable
-    // generate random damage value based on enemy's attack power
-    damage = randomNumber(enemy.attack - 3, enemy.attack);
-
-    player.health = Math.max(0, player.health - damage);
-    console.log(
-      enemy.name +
-      " attacked " +
-      player.name +
-      ". " +
-      player.name +
-      " now has " +
-      player.health +
-      " health remaining."
-    );
-
-    // check player's health
-    if (player.health <= 0) {
-      window.alert(player.name + " has died!");
-      // leave while() loop if player is dead
-      break;
-    } else {
-      console.log(player.name + " still has " + player.health + " health left.");
-    }
+    // switch turn order for next round
+    isPlayerTurn = !isPlayerTurn;
   }
 };
 
@@ -129,7 +141,7 @@ let shop = function () {
   let shopOptionPrompt = window.prompt(
     "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one 1 for REFILL, 2 for UPGRADE, or 3 for LEAVE."
   );
-  
+
   shopOptionPrompt = parseInt(shopOptionPrompt);
 
   // use switch to carry out action
