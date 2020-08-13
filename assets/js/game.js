@@ -7,8 +7,7 @@
 let fight = function (enemy) {
   while (enemy.health > 0 && player.health > 0) {
     // Ask the player if they want to fight or not
-    if (fightOrSkip())
-    {
+    if (fightOrSkip()) {
       // If true, the Player is skipping the fight
       break;
     }
@@ -128,27 +127,27 @@ let endGame = function () {
 let shop = function () {
   // Ask player if they want to refill health, upgrade attack, or leave the shop
   let shopOptionPrompt = window.prompt(
-    "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one: 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice."
+    "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one 1 for REFILL, 2 for UPGRADE, or 3 for LEAVE."
   );
-
-  shopOptionPrompt = shopOptionPrompt.toLowerCase();
+  
+  shopOptionPrompt = parseInt(shopOptionPrompt);
 
   // use switch to carry out action
   switch (shopOptionPrompt) {
     // If refill, subtract money points from player and increase health
-    case "refill":
+    case "1":
 
       player.refillHealth();
       break;
 
     // If upgrade, subtract money points from player and increase attack power
-    case "upgrade":
+    case 2:
 
       player.upgradeAttack();
       break;
 
     // If leave, alert goodbye and exit the function
-    case "leave":
+    case 3:
       window.alert("Leaving the store.");
 
       // do nothing, so function will end
@@ -206,7 +205,7 @@ let fightOrSkip = function () {
       window.alert(player.name + " has decided to skip this fight. Goodbye!");
       // subtract money from playerMoney for skipping
       player.playerMoney = Math.max(0, player.money - 10);
-     
+
       return true;
     }
   }
